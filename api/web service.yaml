@@ -1,0 +1,501 @@
+swagger: "2.0"
+info:
+  description: This API allows to manage data around Airline Reservation System
+  version: v1
+  title: BookIT WebService
+tags:
+- name: user
+  description: All routes related to user account
+- name: routes
+  description: All flights related to routes
+- name: airports
+  description: Routes to retrieve data from airports
+- name: reservations
+  description: Routes about reservations
+  
+paths:
+  /reservations:
+    get:
+      tags:
+      - reservations
+      summary: Get all reservations made
+      responses:
+        "200":
+          description: Return an reservation object
+          schema:
+            $ref: '#/definitions/reservations_all'
+            
+  /reservations/user/{user_id}:
+    get:
+      tags:
+      - reservations
+      summary: Get all reservations linked to a specific account
+      parameters:
+      - name: user_id
+        in: path
+        description: ID of User
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Return an reservation object
+          schema:
+            $ref: '#/definitions/reservations_user'
+  /reservations/add:
+    post:
+      tags:
+      - reservations
+      summary: A user can make a reservation via this post request.
+      parameters:
+      - in: body
+        name: RequestBody
+        required: true
+        schema:
+            $ref: '#/definitions/reservations_add'
+      responses:
+        "200":
+          description: Return '200' when the reservation is completed and well inserted in database.
+          
+  /user/add:
+    post:
+      tags:
+      - user
+      summary: Allow the company to add a new customer in data.
+      parameters:
+      - in: body
+        name: RequestBody
+        required: true
+        schema:
+            $ref: '#/definitions/User'
+      responses:
+        "200":
+          description: Return '200' when the reservation is completed and well inserted in database.
+          
+  /user/modify/{user_id}:
+    put:
+      tags:
+      - user
+      summary: Allow the company to update info about a user.
+      parameters:
+      - name: user_id
+        in: path
+        description: ID of user to modify
+        required: true
+        type: integer
+        format: int
+      - in: body
+        name: RequestBody
+        required: true
+        schema:
+            $ref: '#/definitions/User'
+      responses:
+        "200":
+          description: Return '200' when the reservation is completed and well inserted in database.
+          
+  /reservations/delete/{reservation_id}:
+    delete:
+      tags:
+      - reservations
+      summary: Allow a user to delete a reservation
+      parameters:
+      - name: reservation_id
+        in: path
+        description: ID of reservation
+        required: true
+        type: integer
+        format: int
+      responses:
+        "200":
+          description: Return 200 when reservation is deleted
+          
+  /reservations/{reservation_id}:
+    get:
+      tags:
+      - reservations
+      summary: Get a specific reservation
+      parameters:
+      - name: reservation_id
+        in: path
+        description: ID of reservation
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Return an reservation object
+          schema:
+            $ref: '#/definitions/reservations_id'
+
+          
+  /reservations/modify/{reservation_id}:
+    put:
+      tags:
+      - reservations
+      summary: Allow a user to modify a reservation
+      parameters:
+      - name: reservation_id
+        in: path
+        description: ID of reservation
+        required: true
+        type: integer
+        format: int
+      - in: "body"
+        name: "body"
+        description: ID of reservation
+        required: true
+        schema:
+            $ref: '#/definitions/ex_user'
+      responses:
+        "200":
+          description: Return code 200 when modification is accomplished 
+
+
+  /routes:
+    get:
+      tags:
+      - routes
+      summary: Get all flights regsitred in database no matter of date
+      responses:
+        "200":
+          description: Return an array with all flights avaible without criteria
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Routes'
+
+              
+  /routes/add:
+    post:
+      tags:
+      - routes
+      summary: Allow a company to add a new route to flight
+      parameters:
+      - in: body
+        name: RequestBody
+        required: true
+        schema:
+            $ref: '#/definitions/Routes'
+      responses:
+        "200":
+          description: Return OK 200 when insertion is done.
+          
+  /routes/day:
+    get:
+      tags:
+      - routes
+      summary: Get all flights avaibles from current day
+      responses:
+        "200":
+          description: Return an array with all flights avaible without criteria
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Routes'
+              
+  /routes/departure_time/{departure_time}:
+    get:
+      tags:
+      - routes
+      summary: Get all flights going from a specified time
+      parameters:
+      - name: departure_time
+        in: path
+        description: ID
+        required: true
+        type: integer
+        format: int
+      responses:
+        "200":
+          description: Return an array with all flights avaible with destination criteria
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Routes'
+  
+  /routes/infos/{route_id}:
+    get:
+      tags:
+      - routes
+      summary: Get all info about a specific route
+      parameters:
+      - name: route_id
+        in: path
+        description: ID
+        required: true
+        type: integer
+        format: int
+      responses:
+        "200":
+          description: Return an QJsonObject
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/get_all_infos_on_route'
+              
+              
+  /routes/between_airports/{departure_airport}/{arrival_airport}:
+    get:
+      tags:
+      - routes
+      summary: Get all flights going to a specific destination from a specified airport
+      parameters:
+      - name: departure_airport
+        in: path
+        description: Code of departure airport
+        required: true
+        type: string
+      - name: arrival_airport
+        in: path
+        description: ID
+        required: true
+        type: string
+        format: string
+      responses:
+        "200":
+          description: Return an array with all flights avaible with destination criteria
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Routes'
+  /routes/{route_id}:
+    get:
+      tags:
+      - routes
+      summary: Get all info about a specific route
+      parameters:
+      - name: route_id
+        in: path
+        description: ID
+        required: true
+        type: integer
+        format: int
+      responses:
+        "200":
+          description: Return an object with all informations concerning a specific flight
+          schema:
+            $ref: '#/definitions/Routes'
+
+  
+  /routes/modify/{route_id}:
+    put:
+      tags:
+      - routes
+      summary: Allow company to modify the route informations and status
+      parameters:
+      - name: route_id
+        in: path
+        required: true
+        type: integer
+        format: int
+      - in: body
+        name: RequestBody
+        required: true
+        schema:
+            $ref: '#/definitions/Routes'
+      responses:
+        "200":
+          description: Return code 200 when modification is accomplished
+
+  /airports:
+    get:
+      tags:
+      - airports
+      summary: Get all airports avaible in database
+      parameters: []
+      responses:
+        "200":
+          description: Return an array with all flights avaible with destination criteria
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Airport'
+definitions:
+
+  Aircraft:
+    type: object
+    properties:
+      aircraft_id:
+        type: integer
+        example: 666
+      dim_X:
+        type: integer
+        example: 40
+      dim_Y:
+        type: integer
+        example: 30
+      manufacturer:
+        type: string
+        example: "Airbus"
+  User:
+    type: object
+    properties:
+      user_id:
+        type: integer
+        example: "20"
+      firstname:
+        type: string
+        example: "John"
+      lastname:
+        type: string
+        example: "Doe"
+      email:
+        type: string
+        example: "johndoe@gmail.com"
+      phonenumber:
+        type: integer
+        example: "0836656565"
+      date_of_birth:
+        type: integer
+        example: 19912305
+  Routes:
+    type: object
+    properties:
+      route_id:
+        type: integer
+        example: 45788
+      aircraft_id:
+        type: integer
+        example: 336
+      departure_time:
+        type: integer
+        example: 057720221214
+      arrival_time:
+        type: integer
+        example: 077720221214
+      depature_airport:
+        type: string
+      arrival_airport:
+        type: string
+
+  ex_user:
+    type: object
+    properties:
+      reservation_id:
+        type: integer
+        example: 4
+      status:
+        type: string
+        example: BOOKED
+      price:
+        type: number
+        example: 300.50
+      seat_num:
+        type: string
+        example: "24A"
+      route_id:
+        type: integer
+        example: 6
+      date_of_reservation:
+        type: integer
+        example: 1656494800
+          
+  reservations_add:
+    type: object
+    properties:
+      status:
+        type: string
+        example: BOOKED
+      price:
+        type: number
+        example: 300.50
+      seat_num:
+        type: string
+        example: "24A"
+      route_id:
+        type: integer
+        example: 6
+      user_id:
+        type: integer
+        example: 4
+      date_of_reservation:
+        type: integer
+        example: 1656494800
+    
+  reservations_all:
+    type: "object"
+    properties:
+      0:
+        type: object
+        example:
+        $ref: "#/definitions/reservations_add"
+      1:
+        type: object
+        example:
+        $ref: "#/definitions/reservations_add"
+      2:
+        type: object
+        example:
+        $ref: "#/definitions/reservations_add"
+        
+  get_all_infos_on_route:
+    type: "object"
+    properties:
+      flights_infos:
+        type: integer
+        example: 
+         295
+      routes_infos:
+        type: object
+        example: 
+        $ref: "#/definitions/Routes"
+      reservations:
+        type: object
+        example:
+        $ref: "#/definitions/reservations_byroute"
+        
+  flight_byroute:
+    type: object
+    properties:
+      reservation_id:
+        type: integer
+        example: 0
+        
+        
+  reservations_byroute:
+    type: object
+    properties:
+      reservation_id:
+        type: integer
+        example: 0
+      user_id:
+        type: number
+        example: 300.50
+      seat_num:
+        type: string
+        example: "24A"
+
+        
+  reservations_user:
+    type: "object"
+    properties:
+      data: 
+        type: "array"
+        xml:
+          name: "data"
+          wrapped: true
+        items:
+          $ref: "#/definitions/ex_user"
+          
+  reservations_id:
+    type: "object"
+    properties:
+      data: 
+        type: object
+        example:
+        $ref: "#/definitions/reservations_add"
+          
+  
+  Airport:
+    type: object
+    properties:
+      airport_id:
+        type: string
+        example: 1
+      country_code:
+        type: string
+        example: "FRA"
+      airport_name:
+        type: string
+        example: "Paris Charles de Gaulle"
+      airport_code:
+        type: string
+        example: "CDG"

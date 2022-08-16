@@ -1,0 +1,4 @@
+date_of_birth = YYYYMMDD
+departure_time = YYYYMMDDHHMM
+arrival_time = YYYYMMDDHHMM
+date_of_reservation = YYYYMMDDHHMMSS

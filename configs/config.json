@@ -1,0 +1,37 @@
+{
+    "IP": "127.0.0.1",
+    "PORT": 8585,
+    "DATABASE" : "../database/BookITv2.s3db",
+    "URLS":
+    {
+        "RESERVATIONS":
+        {
+            "ADD": "/reservations/add",
+            "DELETE": "/reservations/delete/",
+            "GET": "/reservations/",
+            "GET_ALL": "/reservations",
+            "GET_USER_RES": "/reservations/user/",
+            "MODIFY": "/reservations/modify"
+        },
+        "ROUTES":
+        {
+            "ADD": "/routes/add",
+            "GET": "/routes/",
+            "GET_ALL_INFOS": "/routes/infos/",
+            "GET_ALL": "/routes",
+            "GET_DEPART_TIME": "/routes/departure_time/",
+            "GET_FOR_DAY": "/routes/day",
+            "GET_BETWEEN_AIRPORT": "/routes/between_airports/",
+            "MODIFY": "/routes/modify"
+        },
+        "AIRPORTS":
+        {
+            "GET_ALL": "/airports"
+        },
+        "USERS":
+        {
+            "ADD": "/user/add",
+            "MODIFY":"/user/modify"
+        }
+    }
+}

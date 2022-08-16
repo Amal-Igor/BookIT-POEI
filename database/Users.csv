@@ -1,0 +1,6 @@
+user_id;firstname;lastname;email;phone_number;date_of_birth;password;auth_level
+1;book;it;admin@bookit.com;112345674;19970821;;2
+2;Amal;BenMohamed;amal.benmohamed91@outlook.fr;612345679;19920201;;1
+3;Alborz;Parvizi;alborz.parvizi@gmail.com;312345672;19940808;;1
+4;Khaled;Rassoul;khaled.rassoul1@gmail.com;212345671;19900313;;1
+5;Kojo;Anyinam-Boateng;adverb_rushed_09@icloud.com;712345678;19941225;;1
